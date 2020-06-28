@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}To-do list!{% endblock %}
+
+{% block body %}
+<header style="width: 100%; height: 200px; background-color: blue;">
+    <h1 style="color: #fff; text-align: center; padding-top: 50px;">My To Do List</h1>
+        <div class="row">
+            <div class="col-md-8" style="display: block; margin: 0 auto">
+                {{ render(controller(
+                    'App\\Controller\\TaskFormController::add'
+                )) }}
+            </div>
+        </div>
+</header>
+    <div class="row">
+        <ul class="list-group task-list">
+            {% if tasks is not empty %}
+                {% for task in tasks %}
+                <li class="list-group-item {% if task.completed %}completed{% endif %}">
+                    <a href="{{ path('switch_task_status', {'id': task.id}) }}">{{ task.name }}</a>
+                    <a href="{{ path('delete_task', {'id': task.id}) }}">
+                        <span class="badge badge-primary badge-pill" style="float: right">X</span>
+                    </a>
+                </li>
+                {% endfor %}
+            {% else %}
+                <h2 style="text-align: center">No tasks, please add one!</h2>
+            {% endif %}
+        </ul>
+    </div>
+{% endblock %}

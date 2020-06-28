@@ -1,0 +1,25 @@
+{{ form_start(form, {
+    'attr': {
+        'class': 'row'
+    }
+}) }}
+<div class="col-12 col-sm pr-sm-0">
+    {{ form_widget(form.name, {
+        'attr' : {
+            'class': 'form-control',
+            'name': 'title',
+            'id': 'title',
+        }
+    })
+    }}
+</div>
+<div class="col-12 col-sm-auto pl-sm-0">
+    {{ form_widget(form.submit, {
+        'label': 'Add task',
+        'attr': {
+            'class': 'btn btn-primary btn-block'
+        }
+    })
+    }}
+</div>
+{{ form_end(form) }}
