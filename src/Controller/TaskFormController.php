@@ -3,15 +3,27 @@
 namespace App\Controller;
 
 use App\Entity\Task;
+use App\Entity\User;
 use App\Form\TaskType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 class TaskFormController extends AbstractController
 {
+    /**
+     * @var Security
+     */
+    private $security;
+
+    public function __construct(Security $security)
+    {
+        $this->security = $security;
+    }
+
     /**
      * @Route("/add", name="add_task")
      * @param Request $request
@@ -20,6 +32,7 @@ class TaskFormController extends AbstractController
     public function add(Request $request)
     {
         $task = new Task();
+        $user = $this->security->getUser();
         $form = $this->createForm(TaskType::class, $task, [
             'action' => $this->generateUrl('add_task'),
             'method' => 'POST',
@@ -29,6 +42,7 @@ class TaskFormController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
 
         if($form->isSubmitted() && $form->isValid()) {
+            $task->setUser($user);
             $entityManager->persist($task);
             $entityManager->flush();
 

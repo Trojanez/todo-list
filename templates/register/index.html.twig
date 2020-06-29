@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Registration{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row centered-form">
+            <div style="margin: 0 auto;">
+                <h3 style="margin-bottom: 20px;">Please sign up for ToDo List application</h3>
+                {{ form_start(registration_form, {
+                    'attr': {
+                        'role': 'form'
+                    }
+                }) }}
+                <div class="form-group">
+                    {{ form_widget(registration_form.email, {
+                        'attr': {
+                            'class': 'form-control input-sm'
+                        }
+                    }) }}
+                </div>
+                <div class="form-group">
+                    {{ form_widget(registration_form.password.first, {
+                        'attr': {
+                            'class': 'form-control input-sm',
+                            'placeholder': 'Password'
+                        }
+                    }) }}
+                </div>
+                <div class="form-group">
+                    {{ form_widget(registration_form.password.second, {
+                        'attr': {
+                            'class': 'form-control input-sm',
+                            'placeholder': 'Confirm password'
+                        }
+                    }) }}
+                </div>
+                {{ form_row(registration_form.save, {
+                    'attr': {
+                        'class': 'btn btn-info btn-block'
+                    }
+                })
+                }}
+                {{ form_end(registration_form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

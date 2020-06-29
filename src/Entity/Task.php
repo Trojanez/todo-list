@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\TaskRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=TaskRepository::class)
@@ -19,6 +20,7 @@ class Task
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $name;
 
@@ -26,6 +28,12 @@ class Task
      * @ORM\Column(type="boolean", nullable=true)
      */
     private $completed;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="tasks")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
 
     public function getId(): ?int
     {
@@ -52,6 +60,18 @@ class Task
     public function setCompleted(?bool $completed): self
     {
         $this->completed = $completed;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }
