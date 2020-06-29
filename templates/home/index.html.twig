@@ -3,19 +3,16 @@
 {% block title %}To-do list!{% endblock %}
 
 {% block body %}
-<header style="width: 100%; height: 200px; background-color: blue;">
-    <div class="auth-block" style="float: right; margin-right: 30px;">
+<header>
+    <div class="float-right auth-block">
         {% if app.user is not null %}
-        <h1>Hello {{ app.user.username }}</h1>
-        <span><a href="{{ path('app_logout') }}">Logout</a></span>
-        {% else %}
-        <a style="font-size: 20px; color: #000; padding-right: 20px" href="{{ path('register') }}">Registration</a>
-        <a style="font-size: 20px; color: #000;" href="">Login</a>
+            <span class="username">Hello {{ app.user.username }}!</span>
+            <span><a class="logout" href="{{ path('app_logout') }}">Logout</a></span>
         {% endif %}
     </div>
-    <h1 style="color: #fff; text-align: center; padding-top: 50px;">My To Do List</h1>
+    <h1 class="text-center text-white todo-title">My To Do List</h1>
         <div class="row">
-            <div class="col-md-8" style="display: block; margin: 0 auto">
+            <div class="col-md-8 task-form">
                 {{ render(controller(
                     'App\\Controller\\TaskFormController::add'
                 )) }}
@@ -26,18 +23,29 @@
         <ul class="list-group task-list">
             {% if tasks is not empty %}
                 {% for task in tasks %}
-                <li class="list-group-item {% if task.completed %}completed{% endif %}">
-                    {% if task.completed %}&#9745;{% endif %}
-                    <a href="{{ path('switch_task_status', {'id': task.id}) }}">
-                        {{ task.name }}
-                    </a>
-                    <a href="{{ path('delete_task', {'id': task.id}) }}">
-                        <span class="" style="float: right">&#9747;</span>
-                    </a>
-                </li>
+                    {% if task.completed %}
+                        <li class="list-group-item completed">
+                            &#9745;
+                            <span class="task-name">
+                                {{ task.name }}
+                            </span>
+                            <a class="task-delete-icon" href="{{ path('delete_task', {'id': task.id}) }}">
+                                <span>&#9747;</span>
+                            </a>
+                        </li>
+                    {% else %}
+                        <li class="list-group-item not-completed">
+                            <a class="task-name" href="{{ path('switch_task_status', {'id': task.id}) }}">
+                                {{ task.name }}
+                            </a>
+                            <a class="task-delete-icon" href="{{ path('delete_task', {'id': task.id}) }}">
+                                <span>&#9747;</span>
+                            </a>
+                        </li>
+                    {% endif %}
                 {% endfor %}
             {% else %}
-                <h2 style="text-align: center">No tasks, please sign up add one!</h2>
+                <h2 class="text-center">No tasks, please add one!</h2>
             {% endif %}
         </ul>
     </div>
